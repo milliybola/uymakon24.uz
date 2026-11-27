@@ -29,7 +29,7 @@ export default function BuyersPage() {
         <Link href="/elon-berish" className="rounded-xl bg-brand px-5 py-3 font-bold text-white">
           Mulkim mos keladi: e’lon berish
         </Link>
-        <Link href="/elon-berish" className="rounded-xl border-2 border-slate-200 bg-white px-5 py-3 font-bold">
+        <Link href="/ariza" className="rounded-xl border-2 border-slate-200 bg-white px-5 py-3 font-bold">
           Men ham izlayapman
         </Link>
       </div>

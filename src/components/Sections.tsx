@@ -89,7 +89,7 @@ export function SellCta() {
     <div className="mt-10 flex flex-col items-start gap-4 rounded-3xl bg-gradient-to-r from-brand-900 to-brand p-6 text-white sm:flex-row sm:items-center sm:p-7">
       <div className="flex-1">
         <h2 className="text-xl font-extrabold tracking-tight">Mulkingizni sotmoqchimisiz yoki ijaraga bermoqchimisiz?</h2>
-        <p className="mt-1 text-sm text-brand-100">Ariza qoldiring: e’loningizni tez va to‘g‘ri joylashtirishga yordam beramiz.</p>
+        <p className="mt-1 text-sm text-brand-100">E’lon berish bepul: Telegram orqali kiring, moderator tekshiruvidan so‘ng saytda chiqadi.</p>
       </div>
       <Link href="/elon-berish" className="rounded-xl bg-white px-5 py-3 font-bold text-brand">
         E’lon berish

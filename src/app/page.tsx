@@ -54,7 +54,7 @@ async function HomeContent({ searchParams }: { searchParams: PageProps<"/">["sea
               title="Hech narsa topilmadi"
               text="Filtrlarni o‘zgartirib ko‘ring yoki ariza qoldiring: mos e’lon chiqsa, sizga xabar beramiz."
               action={
-                <Link href="/elon-berish" className="rounded-xl bg-brand px-5 py-2.5 font-bold text-white">
+                <Link href="/ariza" className="rounded-xl bg-brand px-5 py-2.5 font-bold text-white">
                   Ariza qoldirish
                 </Link>
               }

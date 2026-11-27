@@ -8,3 +8,8 @@ export const LeafletMap = dynamic(() => import("./LeafletMap"), {
   loading: () => <div className="size-full animate-pulse bg-[#eef2e8]" />,
 });
 export type { Pin } from "./LeafletMap";
+
+export const PickMap = dynamic(() => import("./PickMap"), {
+  ssr: false,
+  loading: () => <div className="size-full animate-pulse bg-[#eef2e8]" />,
+});

@@ -35,6 +35,12 @@ export function HeaderView({ path }: { path: string }) {
           })}
         </nav>
         <div className="flex-1" />
+        <Link href="/mening-elonlarim" aria-label="Mening e’lonlarim" title="Mening e’lonlarim" className="hidden size-10 place-items-center rounded-xl border border-slate-200 bg-white sm:grid">
+          <svg viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+            <circle cx="12" cy="8" r="4" />
+            <path d="M4 21a8 8 0 0 1 16 0" />
+          </svg>
+        </Link>
         <Link href="/sevimlilar" aria-label="Sevimlilar" className="relative grid size-10 place-items-center rounded-xl border border-slate-200 bg-white">
           <HeartIcon className="size-5" />
           <FavoritesCount />
@@ -52,7 +58,7 @@ const TABS = [
   { href: "/xarita", label: "Xarita", icon: "M9 4 3 6v14l6-2 6 2 6-2V4l-6 2zM9 4v14M15 6v14" },
   { href: "/elon-berish", label: "E’lon berish", icon: "" },
   { href: "/sevimlilar", label: "Sevimlilar", icon: "M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z" },
-  { href: "/xaridorlar", label: "Xaridorlar", icon: "M16 11a4 4 0 1 0-8 0M4 21a8 8 0 0 1 16 0M12 7V3" },
+  { href: "/mening-elonlarim", label: "Profil", icon: "M16 8a4 4 0 1 1-8 0 4 4 0 0 1 8 0M4 21a8 8 0 0 1 16 0" },
 ];
 
 /** Telefondagi pastki menyu */

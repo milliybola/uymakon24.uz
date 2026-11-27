@@ -74,3 +74,44 @@ export type ListingQuery = {
   sort?: "new" | "cheap" | "expensive";
   page?: number;
 };
+
+export type Mahalla = { id: number; name: string };
+
+export type MyListingStatus = "draft" | "pending" | "active" | "rejected" | "hidden" | "sold" | "rented";
+
+/** Foydalanuvchining o‘z e’loni (/me/listings) */
+export type MyListing = Omit<ListingDetail, "status" | "mahalla" | "district" | "share_url" | "updated_at"> & {
+  status: MyListingStatus;
+  reject_reason: string;
+  phone_clicks: number;
+  mahalla: number | null;
+  district: string;
+  share_url?: string;
+  submitted_at?: string | null;
+  created_at?: string;
+};
+
+/** Forma ma’lumotlari (backendga yuboriladigan) */
+export type ListingInput = {
+  deal_type: DealType;
+  rent_period: RentPeriod;
+  category: CategorySlug;
+  title: string;
+  description: string;
+  price: number;
+  currency: Currency;
+  is_negotiable: boolean;
+  mahalla: number | null;
+  address: string;
+  lat: number | null;
+  lng: number | null;
+  rooms: number | null;
+  area_m2: number | null;
+  land_area_sotix: number | null;
+  floor: number | null;
+  total_floors: number | null;
+  attributes: Record<string, boolean | string>;
+  contact_name: string;
+  phone: string;
+  telegram_username: string;
+};
