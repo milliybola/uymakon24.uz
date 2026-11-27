@@ -19,18 +19,18 @@ export type ListingCard = {
   category: CategorySlug;
   mahalla: string | null;
   rooms: number | null;
-  area_m2: string | null;
-  land_area_sotix: string | null;
+  area_m2: string | number | null;
+  land_area_sotix: string | number | null;
   thumb: string | null;
   blurhash: string;
   images_count: number;
   is_featured: boolean;
   status: "active" | "sold" | "rented" | "inactive";
   published_at: string;
-  lat?: string | null;
-  lng?: string | null;
-  /** Backendga keyin qo‘shiladi: kim joylagan va avvalgi narx */
-  posted_by?: "owner" | "realtor" | null;
+  /** Backend sozlamasiga qarab son yoki matn bo‘lib keladi */
+  lat?: string | number | null;
+  lng?: string | number | null;
+  posted_by?: "owner" | "realtor" | "" | null;
   old_price?: number | null;
 };
 
@@ -40,8 +40,8 @@ export type ListingDetail = ListingCard & {
   description: string;
   district: string;
   address: string;
-  lat: string | null;
-  lng: string | null;
+  lat: string | number | null;
+  lng: string | number | null;
   floor: number | null;
   total_floors: number | null;
   attributes: Record<string, string | number | boolean>;

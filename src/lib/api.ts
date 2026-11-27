@@ -130,9 +130,9 @@ export async function getMapListings(deal: Deal): Promise<ListingCard[]> {
   return list.filter((l) => l.lat && l.lng);
 }
 
-/** Xaridorlar so‘rovlari. Backendda ochiq endpoint hali yo‘q: unda bo‘sh ro‘yxat qaytadi va blok ko‘rinmaydi. */
+/** Xaridorlar so‘rovlari: admin tasdiqlaganlari, shaxsiy ma’lumotsiz. Bo‘sh bo‘lsa, blok ko‘rinmaydi. */
 export async function getBuyers(): Promise<Buyer[]> {
   "use cache";
   cacheLife("minutes");
-  return usingMock ? MOCK_BUYERS : [];
+  return usingMock ? MOCK_BUYERS : get<Buyer[]>("buyers");
 }

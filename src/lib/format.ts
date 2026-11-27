@@ -71,7 +71,7 @@ export function isNew(iso: string, now: number) {
   return now - new Date(iso).getTime() < 3 * 86400 * 1000;
 }
 
-const num = (v: string | null) => (v == null ? null : Number(v));
+const num = (v: string | number | null) => (v == null ? null : Number(v));
 
 /** Kartochkadagi qisqa ma’lumotlar: "🛏 5 · 📐 140 m² · 🌱 6 sotix" */
 export function facts(l: ListingCard) {

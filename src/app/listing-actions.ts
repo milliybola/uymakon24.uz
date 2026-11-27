@@ -1,5 +1,7 @@
 "use server";
 
+import { headers } from "next/headers";
+
 import { getByCodes, getListings, usingMock } from "@/lib/api";
 import { parseQuery } from "@/lib/query";
 import type { ListingCard } from "@/lib/types";
@@ -21,7 +23,7 @@ export type ReportState = { ok: boolean; message: string };
 
 const REASONS = new Set(["sold", "wrong_price", "wrong_info", "fraud", "other"]);
 
-/** Shikoyat. Backendda endpoint qo‘shilguncha javob 404 bo‘lsa ham foydalanuvchiga xato ko‘rsatilmaydi. */
+/** Shikoyat → backend. Haqiqiy IP kalit bilan uzatiladi: limit va takrorni tekshirish IP bo‘yicha ishlaydi. */
 export async function reportListing(_prev: ReportState, fd: FormData): Promise<ReportState> {
   const code = Number(fd.get("code"));
   const reason = String(fd.get("reason") ?? "");
@@ -31,14 +33,24 @@ export async function reportListing(_prev: ReportState, fd: FormData): Promise<R
   try {
     const res = await fetch(`${process.env.API_BASE!.replace(/\/+$/, "")}/listings/${code}/report`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "X-Leads-Key": process.env.LEADS_API_KEY ?? "",
+        "X-Client-IP": await clientIp(),
+      },
       body: JSON.stringify({ reason, note }),
       signal: AbortSignal.timeout(10_000),
     });
     if (res.status === 429) return { ok: false, message: "Juda ko‘p urinish. Birozdan so‘ng qayta yuboring." };
-    if (!res.ok && res.status !== 404) return { ok: false, message: "Yuborib bo‘lmadi. Qayta urinib ko‘ring." };
+    if (res.status === 404) return { ok: false, message: "Bu e’lon endi mavjud emas." };
+    if (!res.ok) return { ok: false, message: "Yuborib bo‘lmadi. Qayta urinib ko‘ring." };
   } catch {
     return { ok: false, message: "Ulanishda xatolik. Qayta urinib ko‘ring." };
   }
   return { ok: true, message: "Rahmat! Shikoyatingiz moderatorga yuborildi." };
+}
+
+async function clientIp() {
+  const h = await headers();
+  return h.get("x-real-ip") ?? h.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "";
 }
