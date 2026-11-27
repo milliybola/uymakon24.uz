@@ -30,7 +30,6 @@ export type ListingCard = {
   /** Backend sozlamasiga qarab son yoki matn bo‘lib keladi */
   lat?: string | number | null;
   lng?: string | number | null;
-  posted_by?: "owner" | "realtor" | "" | null;
   old_price?: number | null;
 };
 
@@ -72,7 +71,6 @@ export type ListingQuery = {
   rooms?: string;
   price_min?: number;
   price_max?: number;
-  owner?: boolean;
   sort?: "new" | "cheap" | "expensive";
   page?: number;
 };

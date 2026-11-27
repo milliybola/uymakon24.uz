@@ -31,7 +31,7 @@ export function SearchPanel({ query }: { query: ListingQuery }) {
           {DEALS.map((d) => (
             <Link
               key={d.key}
-              href={toHref(withDeal({ deal: query.deal, category: query.category, owner: query.owner }, d.key))}
+              href={toHref(withDeal({ deal: query.deal, category: query.category }, d.key))}
               scroll={false}
               className={`flex-1 rounded-xl px-5 py-2 text-center font-bold transition sm:flex-none ${query.deal === d.key ? "bg-white text-brand" : "text-brand-100 hover:text-white"}`}
             >
@@ -88,9 +88,6 @@ export function SearchPanel({ query }: { query: ListingQuery }) {
               {c.icon} {c.name}
             </button>
           ))}
-          <button className={`${chip} ${query.owner ? on : off}`} onClick={() => go({ ...query, owner: !query.owner || undefined })}>
-            👤 Egasidan
-          </button>
         </div>
 
         {open && (

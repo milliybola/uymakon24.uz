@@ -18,7 +18,6 @@ export function parseQuery(sp: SP): ListingQuery {
     rooms: /^(\d\+?)(,\d\+?)*$/.test(rooms) ? rooms : undefined,
     price_min: posInt(one(sp.min)),
     price_max: posInt(one(sp.max)),
-    owner: one(sp.owner) === "1" || undefined,
     sort: sort === "cheap" || sort === "expensive" ? sort : undefined,
     page: posInt(one(sp.page)),
   };
@@ -33,7 +32,6 @@ export function toHref(q: ListingQuery, base = "/") {
   if (q.rooms) p.set("rooms", q.rooms);
   if (q.price_min) p.set("min", String(q.price_min));
   if (q.price_max) p.set("max", String(q.price_max));
-  if (q.owner) p.set("owner", "1");
   if (q.sort) p.set("sort", q.sort);
   return p.size ? `${base}?${p}` : base;
 }

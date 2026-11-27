@@ -45,11 +45,8 @@ export function ListingCard({ l, now, eager = false }: { l: L; now: number; eage
         </div>
         <div className="mt-0.5 line-clamp-1 text-[13px] text-slate-600 sm:text-sm">{l.title}</div>
         <div className="mt-1.5 line-clamp-1 text-xs text-slate-500 sm:text-[13px]">{facts(l).join(" · ") || " "}</div>
-        <div className="mt-2.5 hidden justify-between border-t border-dashed border-slate-200 pt-2.5 text-xs text-slate-500 sm:flex">
-          <span className="truncate">📍 {l.mahalla ?? "G‘allaorol"}</span>
-          {l.posted_by && (
-            <span className={`font-semibold ${l.posted_by === "owner" ? "text-green-600" : ""}`}>{l.posted_by === "owner" ? "Egasi" : "Rieltor"}</span>
-          )}
+        <div className="mt-2.5 hidden border-t border-dashed border-slate-200 pt-2.5 text-xs text-slate-500 sm:block">
+          <span className="block truncate">📍 {l.mahalla ?? "G‘allaorol"}</span>
         </div>
       </div>
     </Link>

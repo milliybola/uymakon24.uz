@@ -52,8 +52,7 @@ async function Detail({ params }: { params: Props["params"] }) {
   const lng = Number(l.lng);
   const hasMap = l.lat != null && l.lng != null && Number.isFinite(lat) && Number.isFinite(lng);
 
-  const rows: [string, React.ReactNode][] = [];
-  if (l.posted_by) rows.push(["Kim joylashtirdi", <span key="p" className={l.posted_by === "owner" ? "text-green-600" : ""}>{l.posted_by === "owner" ? "Egasi" : "Rieltor"}</span>]);
+  const rows: [string, string][] = [];
   rows.push(["Mulk turi", categoryName(l.category)]);
   rows.push(...attributeRows(l.attributes));
   rows.push(["E’lon raqami", `#${l.code}`]);
@@ -158,11 +157,6 @@ async function Detail({ params }: { params: Props["params"] }) {
                 </span>
                 <div>
                   <b>{l.contact_name || site.name}</b>
-                  {l.posted_by && (
-                    <div className={`text-[13px] font-semibold ${l.posted_by === "owner" ? "text-green-600" : "text-slate-500"}`}>
-                      {l.posted_by === "owner" ? "✓ Egasi" : "Rieltor"}
-                    </div>
-                  )}
                 </div>
               </div>
               <div className="hidden md:block">

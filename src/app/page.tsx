@@ -22,7 +22,7 @@ async function HomeContent({ searchParams }: { searchParams: PageProps<"/">["sea
   const sp = await searchParams;
   const query = parseQuery(sp);
   const now = requestTime();
-  const filtered = !!(query.category || query.q || query.rooms || query.price_min || query.price_max || query.owner);
+  const filtered = !!(query.category || query.q || query.rooms || query.price_min || query.price_max);
   const [page, featured, total, buyers] = await Promise.all([
     getListings({ ...query, page: 1 }),
     filtered ? Promise.resolve([]) : getFeatured(query.deal),

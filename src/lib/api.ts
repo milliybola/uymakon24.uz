@@ -33,7 +33,6 @@ const ORDERING = { new: "-published_at", cheap: "price_uzs", expensive: "-price_
 function mockFilter(q: ListingQuery) {
   let list = MOCK_LISTINGS.filter((l) => matchesDeal(l, q.deal));
   if (q.category) list = list.filter((l) => l.category === q.category);
-  if (q.owner) list = list.filter((l) => l.posted_by === "owner");
   if (q.q) {
     const s = q.q.toLowerCase().replace(/^#/, "");
     list = list.filter((l) => l.title.toLowerCase().includes(s) || String(l.code) === s || l.mahalla?.toLowerCase().includes(s));
@@ -66,7 +65,6 @@ export async function getListings(q: ListingQuery): Promise<Page<ListingCard>> {
     rooms: q.rooms,
     price_min: q.price_min,
     price_max: q.price_max,
-    posted_by: q.owner ? "owner" : undefined,
     ordering: ORDERING[q.sort ?? "new"],
     page,
     page_size: PAGE_SIZE,
