@@ -1,14 +1,15 @@
 "use client";
 
-import { useActionState, useRef, useState } from "react";
+import { useActionState, useEffect, useRef, useState, useSyncExternalStore } from "react";
 
 import { reportListing, type ReportState } from "@/app/listing-actions";
 import { formatPhone } from "@/lib/site";
+import { track } from "@/lib/track";
 
 const tgUrl = (u: string) => `https://t.me/${u.replace(/^@/, "")}`;
 
 /** Raqam boshida yashirin: botlar o‘qiy olmaydi, bosilganda ochiladi. */
-export function ContactButtons({ phone, telegram, compact = false }: { phone: string; telegram: string; compact?: boolean }) {
+export function ContactButtons({ code, phone, telegram, compact = false }: { code: number; phone: string; telegram: string; compact?: boolean }) {
   const [shown, setShown] = useState(false);
   const pretty = formatPhone(phone);
   const masked = pretty.replace(/\d{2} \d{2}$/, "•• ••");
@@ -19,16 +20,21 @@ export function ContactButtons({ phone, telegram, compact = false }: { phone: st
     <div className={compact ? "flex gap-2" : "mt-3 grid gap-2.5"}>
       {phone &&
         (shown || compact ? (
-          <a href={tel} className={`${btn} flex-1 bg-brand text-white hover:bg-brand-700`}>
+          <a href={tel} onClick={() => track(code, "phone")} className={`${btn} flex-1 bg-brand text-white hover:bg-brand-700`}>
             📞 {compact ? "Qo‘ng‘iroq" : pretty}
           </a>
         ) : (
-          <button onClick={() => setShown(true)} className={`${btn} bg-brand text-white hover:bg-brand-700`}>
+          <button
+            onClick={() => {
+              setShown(true);
+              track(code, "phone");
+            }}
+            className={`${btn} bg-brand text-white hover:bg-brand-700`}>
             📞 {masked} · Ko‘rsatish
           </button>
         ))}
       {telegram && (
-        <a href={tgUrl(telegram)} target="_blank" rel="noopener" className={`${btn} flex-1 bg-[#229ed9] text-white hover:brightness-95`}>
+        <a href={tgUrl(telegram)} onClick={() => track(code, "telegram")} target="_blank" rel="noopener" className={`${btn} flex-1 bg-[#229ed9] text-white hover:brightness-95`}>
           ✈ {compact ? "Telegram" : "Telegram orqali yozish"}
         </a>
       )}
@@ -36,7 +42,7 @@ export function ContactButtons({ phone, telegram, compact = false }: { phone: st
   );
 }
 
-export function ShareButton({ url, title, className = "" }: { url: string; title: string; className?: string }) {
+export function ShareButton({ code, url, title, className = "" }: { code: number; url: string; title: string; className?: string }) {
   const [copied, setCopied] = useState(false);
   return (
     <button
@@ -44,6 +50,7 @@ export function ShareButton({ url, title, className = "" }: { url: string; title
       className={className}
       onClick={async () => {
         const full = new URL(url, location.origin).toString();
+        track(code, "share");
         if (navigator.share) {
           try {
             await navigator.share({ title, url: full });
@@ -120,5 +127,25 @@ export function ReportBox({ code }: { code: number }) {
         )}
       </dialog>
     </div>
+  );
+}
+
+/** Sahifa ochilganda bir marta "ko‘rish" yuboriladi */
+export function ViewTracker({ code }: { code: number }) {
+  useEffect(() => track(code, "view"), [code]);
+  return null;
+}
+
+const noop = () => () => {};
+
+/** Android’da e’lonni ilovada ochish. Ilova Play Market’ga chiqqach NEXT_PUBLIC_ANDROID_APP=1 qilinadi. */
+export function OpenInApp({ code }: { code: number }) {
+  const android = useSyncExternalStore(noop, () => /Android/i.test(navigator.userAgent), () => false);
+  if (!android || process.env.NEXT_PUBLIC_ANDROID_APP !== "1") return null;
+  const href = `intent://open/e/${code}#Intent;scheme=uymakon24;package=uz.uymakon24.app;end`;
+  return (
+    <a href={href} className="mt-2.5 flex items-center justify-center gap-2 rounded-xl border-2 border-brand px-4 py-2.5 font-bold text-brand">
+      📱 Ilovada ochish
+    </a>
   );
 }

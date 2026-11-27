@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { Suspense } from "react";
 
 import { FavoriteButton } from "@/components/FavoriteButton";
-import { ContactButtons, ReportBox, ShareButton } from "@/components/listing/Actions";
+import { ContactButtons, OpenInApp, ReportBox, ShareButton, ViewTracker } from "@/components/listing/Actions";
 import { Gallery } from "@/components/listing/Gallery";
 import { Badge, GRID, ListingCard } from "@/components/ListingCard";
 import { LeafletMap } from "@/components/map";
@@ -74,7 +74,7 @@ async function Detail({ params }: { params: Props["params"] }) {
 
         <Gallery images={l.images} title={l.title} seed={l.code}>
           <div className="absolute top-3 right-3 flex gap-2">
-            <ShareButton url={`/e/${l.code}`} title={l.title} className="grid size-10 place-items-center rounded-full bg-white/95 shadow" />
+            <ShareButton code={l.code} url={`/e/${l.code}`} title={l.title} className="grid size-10 place-items-center rounded-full bg-white/95 shadow" />
             <FavoriteButton code={l.code} className="size-10 shadow" />
           </div>
         </Gallery>
@@ -160,8 +160,9 @@ async function Detail({ params }: { params: Props["params"] }) {
                 </div>
               </div>
               <div className="hidden md:block">
-                <ContactButtons phone={l.phone} telegram={l.telegram_username} />
+                <ContactButtons code={l.code} phone={l.phone} telegram={l.telegram_username} />
               </div>
+              <OpenInApp code={l.code} />
               <p className="mt-3 text-xs text-slate-500">Pul o‘tkazishdan oldin mulkni o‘z ko‘zingiz bilan ko‘ring va hujjatlarini tekshiring.</p>
             </div>
           </aside>
@@ -181,9 +182,10 @@ async function Detail({ params }: { params: Props["params"] }) {
 
       {/* telefon: pastda doim turadigan aloqa paneli */}
       <div className="fixed inset-x-0 bottom-0 z-[1000] border-t border-slate-200 bg-white px-4 pt-2.5 pb-[max(0.75rem,env(safe-area-inset-bottom))] md:hidden">
-        <ContactButtons phone={l.phone} telegram={l.telegram_username} compact />
+        <ContactButtons code={l.code} phone={l.phone} telegram={l.telegram_username} compact />
       </div>
       <JsonLd l={l} />
+      <ViewTracker code={l.code} />
     </>
   );
 }

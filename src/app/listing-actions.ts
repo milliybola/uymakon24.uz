@@ -54,3 +54,26 @@ async function clientIp() {
   const h = await headers();
   return h.get("x-real-ip") ?? h.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "";
 }
+
+const EVENTS = new Set(["view", "phone", "telegram", "share"]);
+const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+/** Statistika: ko‘rish, qo‘ng‘iroq, Telegram, ulashish. Backend bir qurilmadan kuniga bir marta hisoblaydi. */
+export async function trackEvent(code: number, type: string, deviceId: string) {
+  if (usingMock || !Number.isInteger(code) || !EVENTS.has(type) || !UUID.test(deviceId)) return;
+  try {
+    await fetch(`${process.env.API_BASE!.replace(/\/+$/, "")}/listings/${code}/events`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Device-Id": deviceId,
+        "X-Leads-Key": process.env.LEADS_API_KEY ?? "",
+        "X-Client-IP": await clientIp(),
+      },
+      body: JSON.stringify({ type }),
+      signal: AbortSignal.timeout(5_000),
+    });
+  } catch {
+    // statistika foydalanuvchiga xalaqit bermasligi kerak
+  }
+}

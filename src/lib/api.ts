@@ -122,10 +122,8 @@ export async function getByCodes(codes: number[]): Promise<ListingCard[]> {
 export async function getMapListings(deal: Deal): Promise<ListingCard[]> {
   "use cache";
   cacheLife("minutes");
-  const list = usingMock
-    ? MOCK_LISTINGS.filter((l) => matchesDeal(l, deal))
-    : (await get<Page<ListingCard>>("listings", { ...dealParams(deal), page_size: 50 })).results;
-  return list.filter((l) => l.lat && l.lng);
+  const list = usingMock ? MOCK_LISTINGS.filter((l) => matchesDeal(l, deal)) : await get<ListingCard[]>("listings/map", dealParams(deal));
+  return list.filter((l) => l.lat != null && l.lng != null);
 }
 
 /** Xaridorlar so‘rovlari: admin tasdiqlaganlari, shaxsiy ma’lumotsiz. Bo‘sh bo‘lsa, blok ko‘rinmaydi. */
@@ -133,4 +131,12 @@ export async function getBuyers(): Promise<Buyer[]> {
   "use cache";
   cacheLife("minutes");
   return usingMock ? MOCK_BUYERS : get<Buyer[]>("buyers");
+}
+
+/** Sitemap uchun barcha faol e’lonlar */
+export async function getSitemapEntries(): Promise<{ code: number; updated_at: string }[]> {
+  "use cache";
+  cacheLife("hours");
+  if (usingMock) return MOCK_LISTINGS.map((l) => ({ code: l.code, updated_at: l.published_at }));
+  return get("listings/sitemap");
 }
