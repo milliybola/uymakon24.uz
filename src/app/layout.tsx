@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 
-import { site } from "@/lib/site";
+import { isProduction, site } from "@/lib/site";
 
 import "./globals.css";
 
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     url: "/",
   },
   alternates: { canonical: "/" },
-  robots: { index: true, follow: true },
+  robots: { index: isProduction, follow: isProduction },
 };
 
 export const viewport: Viewport = { themeColor: "#0f766e" };

@@ -16,3 +16,6 @@ export function formatPhone(p: string) {
   if (d.length !== 12) return p;
   return `+${d.slice(0, 3)} ${d.slice(3, 5)} ${d.slice(5, 8)} ${d.slice(8, 10)} ${d.slice(10)}`;
 }
+
+/** Faqat Vercel production (prod branch) indekslanadi; dev/preview Google'ga chiqmaydi. */
+export const isProduction = process.env.VERCEL_ENV === "production";
