@@ -1,6 +1,9 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 
+import { Suspense } from "react";
+
+import { BottomNav, BottomNavView, Footer, FooterView, Header, HeaderView } from "@/components/Chrome";
 import { isProduction, site } from "@/lib/site";
 
 import "./globals.css";
@@ -31,7 +34,6 @@ export const metadata: Metadata = {
     siteName: site.name,
     url: "/",
   },
-  alternates: { canonical: "/" },
   robots: { index: isProduction, follow: isProduction },
 };
 
@@ -40,7 +42,18 @@ export const viewport: Viewport = { themeColor: "#0f766e" };
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="uz" className={`${inter.variable} antialiased`}>
-      <body className="min-h-dvh font-sans">{children}</body>
+      <body className="flex min-h-dvh flex-col bg-slate-50 font-sans">
+        <Suspense fallback={<HeaderView path="" />}>
+          <Header />
+        </Suspense>
+        <main className="flex-1">{children}</main>
+        <Suspense fallback={<FooterView path="" />}>
+          <Footer />
+        </Suspense>
+        <Suspense fallback={<BottomNavView path="" />}>
+          <BottomNav />
+        </Suspense>
+      </body>
     </html>
   );
 }

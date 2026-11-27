@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 
-import { Logo } from "@/components/Logo";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -10,13 +9,7 @@ export const metadata: Metadata = {
 
 export default function Privacy() {
   return (
-    <>
-      <header className="border-b border-slate-200">
-        <div className="mx-auto flex h-16 max-w-3xl items-center px-5">
-          <Logo />
-        </div>
-      </header>
-      <main className="mx-auto max-w-3xl px-5 py-12 leading-relaxed text-slate-700">
+    <div className="mx-auto max-w-3xl px-5 py-12 leading-relaxed text-slate-700">
         <h1 className="text-3xl font-extrabold text-slate-900">Maxfiylik siyosati</h1>
         <p className="mt-6">
           {site.name} ({site.url.replace(/^https?:\/\//, "")}) foydalanuvchilarning shaxsiy ma’lumotlarini hurmat qiladi.
@@ -38,7 +31,6 @@ export default function Privacy() {
           {site.telegram ? ` (Telegram: @${site.telegram})` : ""}
           {site.phone ? ` yoki ${site.phone} raqamiga qo‘ng‘iroq qiling` : ""}.
         </p>
-      </main>
-    </>
+      </div>
   );
 }

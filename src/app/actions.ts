@@ -24,7 +24,7 @@ export async function submitLead(_prev: LeadState, fd: FormData): Promise<LeadSt
     category: str(fd, "category", 20),
     location: str(fd, "location", 120),
     note: str(fd, "note", 1000),
-    source: "landing",
+    source: "site",
   };
 
   const errors: LeadState["errors"] = {};

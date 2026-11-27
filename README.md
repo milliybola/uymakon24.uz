@@ -1,6 +1,12 @@
 # uymakon24.uz — sayt (Next.js)
 
-UyMakon24 ko‘chmas mulk platformasining sayti. Hozir ishga tushishdan oldingi **landing sahifa**: loyihani tanishtiradi va arizalarni yig‘adi. Arizalar Django backendga (`POST /api/v1/leads`) yuboriladi va admin panelda **Arizalar** bo‘limida ko‘rinadi.
+UyMakon24 ko‘chmas mulk platformasining sayti: e’lonlar ro‘yxati, xarita, e’lon sahifasi, sevimlilar va ariza shakli. Ma’lumotlar Django backenddan (`/api/v1/`) olinadi; arizalar `POST /api/v1/leads` ga yuboriladi va admin panelda **Arizalar** bo‘limida ko‘rinadi.
+
+**Branchlar:**
+- `prod`: landing sahifa, uymakon24.uz (Vercel Production).
+- `dev`: to‘liq sayt, uymakon24-uz.vercel.app (Vercel Preview).
+
+**Namuna rejim:** `API_BASE` berilmasa, sayt `src/lib/mock.ts` dagi namuna e’lonlar bilan ishlaydi. Backend serverga chiqmaguncha dev muhit shu rejimda turadi.
 
 - Next.js 16 (App Router, Cache Components), TypeScript, Tailwind CSS 4
 - Hosting: Vercel
@@ -27,8 +33,16 @@ npm run build && npm start   # production tekshiruvi
 ## Tuzilma
 
 ```
-src/app/page.tsx              landing: hero, kategoriyalar, qanday ishlaydi, imkoniyatlar, ariza, savollar
+src/app/page.tsx              bosh sahifa: qidiruv, tablar, filtrlar, VIP, e’lonlar, xaridorlar
+src/app/e/[code]/page.tsx     e’lon sahifasi (galereya, aloqa, xarita, shikoyat, o‘xshashlar)
+src/app/xarita/               xarita (Leaflet + OpenStreetMap, narx yorliqlari)
+src/app/sevimlilar/           sevimlilar (brauzerda saqlanadi, akkauntsiz)
+src/app/xaridorlar/           xaridorlar so‘rovlari
+src/app/elon-berish/          ariza shakli
 src/app/actions.ts            ariza yuborish (Server Action → backend)
+src/app/listing-actions.ts    "yana ko‘rsatish", sevimlilar, shikoyat
+src/lib/api.ts                backend so‘rovlari (kesh bilan) yoki namuna ma’lumot
+src/lib/mock.ts               namuna e’lonlar
 src/app/maxfiylik/page.tsx    maxfiylik siyosati
 src/app/sitemap.ts, robots.ts, opengraph-image.tsx, icon.svg   SEO
 src/components/LeadForm.tsx   ariza shakli (telefon maskasi, xatolar)

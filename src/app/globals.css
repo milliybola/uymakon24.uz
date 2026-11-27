@@ -26,3 +26,43 @@ body {
     @apply w-full rounded-xl border-2 border-slate-200 bg-white px-4 py-3 text-base outline-none transition placeholder:text-slate-400 focus:border-brand;
   }
 }
+
+@layer components {
+  /* Xaritadagi narx yorlig‘i (Leaflet divIcon) */
+  .price-pin {
+    position: absolute;
+    transform: translate(-50%, calc(-100% - 6px));
+    white-space: nowrap;
+    font: 800 13px/1 var(--font-sans);
+    padding: 6px 9px;
+    border-radius: 10px;
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+    cursor: pointer;
+  }
+  .price-pin::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: -5px;
+    margin-left: -5px;
+    border: 5px solid transparent;
+    border-bottom: 0;
+  }
+  .me-dot {
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    transform: translate(-50%, -50%);
+    border-radius: 9999px;
+    background: #2563eb;
+    border: 3px solid #fff;
+    box-shadow: 0 0 0 8px rgb(37 99 235 / 0.2);
+  }
+}
+
+/* telefonda xarita ikki barmoq bilan kattalashtiriladi, tugmalar kerak emas */
+@media (max-width: 767px) {
+  .leaflet-control-zoom {
+    display: none;
+  }
+}
